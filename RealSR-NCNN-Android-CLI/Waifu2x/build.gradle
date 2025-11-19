@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdk 36
+//    compileSdk 36
+    compileSdk 34
 
     defaultConfig {
         minSdk 24
@@ -12,7 +13,7 @@ android {
 
         ndk {
             moduleName "ncnn"
-            abiFilters "arm64-v8a" //, "armeabi-v7a", "x86"
+            abiFilters "arm64-v8a" , "armeabi-v7a"//, "x86"
         }
     }
 
@@ -22,6 +23,6 @@ android {
             path file('src/main/jni/CMakeLists.txt')
         }
     }
-    ndkVersion '29.0.14206865'
+    ndkVersion '27.0.12077973'
     namespace 'com.tumuyan.ncnn.realsr'
 }

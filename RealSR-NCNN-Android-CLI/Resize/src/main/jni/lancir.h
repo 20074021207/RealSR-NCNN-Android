@@ -78,6 +78,22 @@
 	#define LANCIR_NEON
 	#define LANCIR_ALIGN 16
 
+	// ARMv7 compatibility: vaddvq_f32 and vaddv_f32 are only available in ARMv8
+	#if !defined(__aarch64__) && !defined(__arm64__)
+		// ARMv7 fallback for vaddvq_f32 (horizontal add of 4 floats)
+		static inline float vaddvq_f32(float32x4_t v) {
+			float32x2_t sum = vadd_f32(vget_low_f32(v), vget_high_f32(v));
+			sum = vpadd_f32(sum, sum);
+			return vget_lane_f32(sum, 0);
+		}
+		
+		// ARMv7 fallback for vaddv_f32 (horizontal add of 2 floats)
+		static inline float vaddv_f32(float32x2_t v) {
+			float32x2_t sum = vpadd_f32(v, v);
+			return vget_lane_f32(sum, 0);
+		}
+	#endif
+
 #else // NEON
 
 	#define LANCIR_ALIGN 4
